@@ -50,9 +50,9 @@ func (rrs *ReplicatedResources) disableResoureRenaming(logger logger, id string)
 		}
 		if !r.Devices.All {
 			setsDevices = true
-			rrs.Resources[i].Devices.All = true
-			rrs.Resources[i].Devices.Count = 0
-			rrs.Resources[i].Devices.List = nil
+			// rrs.Resources[i].Devices.All = true
+			// rrs.Resources[i].Devices.Count = 0
+			// rrs.Resources[i].Devices.List = nil
 		}
 	}
 	if setsNonDefaultRename {

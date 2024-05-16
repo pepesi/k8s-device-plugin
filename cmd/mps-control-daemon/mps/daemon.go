@@ -24,6 +24,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/opencontainers/selinux/go-selinux"
 	"k8s.io/klog/v2"
@@ -82,9 +83,11 @@ func (e envvars) toSlice() []string {
 // These should be passed to clients consuming the device shared using MPS.
 // TODO: Set CUDA_VISIBLE_DEVICES to include only the devices for this resource type.
 func (d *Daemon) Envvars() envvars {
+	devicesidsEnvvar := strings.Join(d.rm.Devices().GetUUIDs(), ",")
 	return map[string]string{
 		"CUDA_MPS_PIPE_DIRECTORY": d.PipeDir(),
 		"CUDA_MPS_LOG_DIRECTORY":  d.LogDir(),
+		"CUDA_VISIBLE_DEVICES":    devicesidsEnvvar,
 	}
 }
 

@@ -29,6 +29,7 @@ import (
 	cdiapi "tags.cncf.io/container-device-interface/pkg/cdi"
 
 	spec "github.com/NVIDIA/k8s-device-plugin/api/config/v1"
+	v1 "github.com/NVIDIA/k8s-device-plugin/api/config/v1"
 	"github.com/NVIDIA/k8s-device-plugin/cmd/mps-control-daemon/mps"
 	"github.com/NVIDIA/k8s-device-plugin/internal/cdi"
 	"github.com/NVIDIA/k8s-device-plugin/internal/rm"
@@ -166,6 +167,9 @@ func (plugin *NvidiaDevicePlugin) Start() error {
 
 func (plugin *NvidiaDevicePlugin) waitForMPSDaemon() error {
 	if plugin.config.Sharing.SharingStrategy() != spec.SharingStrategyMPS {
+		return nil
+	}
+	if strings.HasSuffix(string(plugin.rm.Resource()), v1.DefaultSharedResourceNameSuffix) {
 		return nil
 	}
 	// TODO: Check the .ready file here.
